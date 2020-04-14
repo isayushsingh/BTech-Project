@@ -1,4 +1,4 @@
-#BTech Project: Recommendation System
+# BTech Project: Recommendation System
 
 The project objective is to build a hybrid recommendation engine by mixing recommendations from content-based filtering and collaborative filtering.
 
