@@ -9,3 +9,5 @@ sklearn.metrics.pairwise
 pickle
 ast
 sklearn.feature_extraction.text
+nltk.stem.snowball
+sklearn.metrics.pairwise
