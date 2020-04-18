@@ -115,4 +115,4 @@ def get_recommendations(title, tfidf_matrix):
     return movies_metadata_df['title'].iloc[movie_indices]
 
 #Find movies similar to 'Toy Story' using Content Filtering
-print(get_recommendations('Happy Feet',count_matrix))
+print(get_recommendations('The Dark Knight',count_matrix))
