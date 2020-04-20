@@ -1,0 +1,4 @@
+/data/*
+.DS_Store
+.idea/
+notebook/feature.pkl
