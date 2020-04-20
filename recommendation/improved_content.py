@@ -2,13 +2,9 @@ import pandas as pd
 import numpy as np
 from ast import literal_eval
 from nltk.stem.snowball import SnowballStemmer
-from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
+from sklearn.metrics.pairwise import linear_kernel
 from sklearn.feature_extraction.text import CountVectorizer
-
-md = pd.read_csv('../data/movies_metadata.csv', low_memory=False)
-
-credits = pd.read_csv('../data/credits.csv', low_memory=False)
-keywords = pd.read_csv('../data/keywords.csv', low_memory=False)
+from load_data import md, credits, keywords
 
 md['genres'] = md['genres'].fillna('[]').apply(literal_eval).apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
 md = md.drop([19730, 29503, 35587])
@@ -34,18 +30,22 @@ def get_director(x):
     return np.nan
 
 md['director'] = md['crew'].apply(get_director)
+
 md['cast'] = md['cast'].apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
 md['cast'] = md['cast'].apply(lambda x: x[:3] if len(x) >=3 else x)
+
 md['keywords'] = md['keywords'].apply(lambda x: [i['name'] for i in x] if isinstance(x, list) else [])
+
 md['cast'] = md['cast'].apply(lambda x: [str.lower(i.replace(" ", "")) for i in x])
+
 md['director'] = md['director'].astype('str').apply(lambda x: str.lower(x.replace(" ", "")))
 md['director'] = md['director'].apply(lambda x: [x,x, x])
+
 s = md.apply(lambda x: pd.Series(x['keywords']),axis=1).stack().reset_index(level=1, drop=True)
 s.name = 'keyword'
 
 s = s.value_counts()
 s = s[s > 1]
-
 stemmer = SnowballStemmer('english')
 
 def filter_keywords(x):
@@ -65,34 +65,43 @@ md['soup'] = md['soup'].apply(lambda x: ' '.join(x))
 count = CountVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
 count_matrix = count.fit_transform(md['soup'])
 
-cosine_sim = cosine_similarity(count_matrix, count_matrix)
-
 md = md.reset_index()
 titles = md['title']
 indices = pd.Series(md.index, index=md['title'])
 
-def get_recommendations(title):
-    idx = indices[title]
-    sim_scores = list(enumerate(cosine_sim[idx]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:31]
-    movie_indices = [i[0] for i in sim_scores]
-    return titles.iloc[movie_indices]
+# Content Filtering results without taking IMDB votings into account
+# def get_recommendations(title):
+#     idx = indices[title]
+#     cosine_sim = linear_kernel(count_matrix[idx], count_matrix)
+#     sim_scores = list(enumerate(cosine_sim[0]))
+#     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+#     sim_scores = sim_scores[1:31]
+#     movie_indices = [i[0] for i in sim_scores]
+#     return titles.iloc[movie_indices]
 
+# get_recommendations('Inception').head(10)
 
 vote_counts = md[md['vote_count'].notnull()]['vote_count'].astype('int')
 vote_averages = md[md['vote_average'].notnull()]['vote_average'].astype('int')
 C = vote_averages.mean()
 
-def weighted_rating(x):
-    m = vote_counts.quantile(0.60)
-    v = x['vote_count']
-    R = x['vote_average']
-    return (v / (v + m) * R) + (m / (m + v) * C)
+sim_movie_list = {}
+
+def cosine_sim(count_matrix, idx, title):
+    if (title in sim_movie_list):
+        # print('call from here')
+        return sim_movie_list[title]
+    else:
+        cosine_sim = linear_kernel(count_matrix[idx], count_matrix)
+        sim_movie_list[title] = cosine_sim[0]
+        return cosine_sim[0]
+
 
 def improved_recommendations(title):
     idx = indices[title]
-    sim_scores = list(enumerate(cosine_sim[idx]))
+
+    sim_scores = list(enumerate(cosine_sim(count_matrix, idx, title)))
+
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     sim_scores = sim_scores[1:26]
     movie_indices = [i[0] for i in sim_scores]
@@ -101,7 +110,7 @@ def improved_recommendations(title):
     vote_counts = movies[movies['vote_count'].notnull()]['vote_count'].astype('int')
     vote_averages = movies[movies['vote_average'].notnull()]['vote_average'].astype('int')
     C = vote_averages.mean()
-    m = vote_counts.quantile(0.60)
+    m = vote_counts.quantile(0.50)
     qualified = movies[
         (movies['vote_count'] >= m) & (movies['vote_count'].notnull()) & (movies['vote_average'].notnull())]
     qualified['vote_count'] = qualified['vote_count'].astype('int')
@@ -111,4 +120,10 @@ def improved_recommendations(title):
     return qualified
 
 
-print(improved_recommendations('The Dark Knight Rises'))
+def weighted_rating(x):
+    m = vote_counts.quantile(0.60)
+    v = x['vote_count']
+    R = x['vote_average']
+    return (v / (v + m) * R) + (m / (m + v) * C)
+
+print(improved_recommendations('Inception'))

@@ -43,17 +43,6 @@ ratings_with_movie_names = ratings_with_movie_names[ratings_with_movie_names.ori
 
 
 #Loading data for content filtering
-movies_metadata_df = pd.read_csv('../data/movies_metadata.csv'
-                                 , converters={ 'id': lambda x: convert_ids(x)
-                                               , 'imdb_id': lambda x: convert_ids(x)
-                                               ,'popularity': lambda x: convert_to_float(x)
-                                               ,'genres': lambda x: to_json(x)}
-                                 , usecols=['id', 'original_title'
-                                                , 'genres' #'homepage'
-                                                , 'overview', 'popularity', 'poster_path'
-                                                , 'release_date', 'revenue', 'runtime'
-                                                , 'spoken_languages', 'title'
-                                                , 'vote_average', 'vote_count']
-                                , dtype={'populariy': np.float64}
-                                , parse_dates=True, low_memory=False)
-movies_metadata_df = movies_metadata_df.drop_duplicates(subset=['id'])
+md = pd.read_csv('../data/movies_metadata.csv', low_memory=False)
+credits = pd.read_csv('../data/credits.csv', low_memory=False)
+keywords = pd.read_csv('../data/keywords.csv', low_memory=False)
