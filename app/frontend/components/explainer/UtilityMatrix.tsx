@@ -17,7 +17,7 @@ export default function UtilityMatrix() {
           <tr>
             <th />
             {MOVIES.map((m) => (
-              <th key={m} className="px-2 pb-2 font-normal text-neutral-500">
+              <th key={m} className="px-2 pb-2 font-normal text-muted">
                 {m}
               </th>
             ))}
@@ -26,16 +26,16 @@ export default function UtilityMatrix() {
         <tbody>
           {USERS.map((u, r) => (
             <tr key={u}>
-              <td className="pr-2 text-right font-medium text-neutral-500">{u}</td>
+              <td className="pr-2 text-right font-medium text-muted">{u}</td>
               {DATA[r].map((cell, c) => (
                 <td
                   key={c}
                   className={`h-10 w-14 rounded-md text-center align-middle ${
                     cell === "?"
-                      ? "border-2 border-dashed border-amber-400 text-amber-500"
+                      ? "border-2 border-dashed border-accent text-accent"
                       : cell === null
-                        ? "bg-neutral-100 text-neutral-300 dark:bg-neutral-900 dark:text-neutral-700"
-                        : "bg-neutral-100 font-medium dark:bg-neutral-900"
+                        ? "bg-white/[0.04] text-white/20"
+                        : "bg-white/[0.06] font-medium text-foreground"
                   }`}
                 >
                   {cell ?? "·"}
@@ -45,7 +45,7 @@ export default function UtilityMatrix() {
           ))}
         </tbody>
       </table>
-      <p className="mt-3 text-center text-xs text-neutral-500">
+      <p className="mt-3 text-center text-xs text-muted">
         Most cells are empty — nobody rates everything. SVD factorizes this sparse
         matrix to estimate the missing (&quot;?&quot;) ratings.
       </p>

@@ -8,23 +8,23 @@ export default function ScoreBreakdown({
   blendedScore: number;
 }) {
   const rows = [
-    { label: "Content", value: contentScore, color: "bg-sky-500" },
-    { label: "Collaborative", value: collabScore, color: "bg-violet-500" },
-    { label: "Blended", value: blendedScore, color: "bg-emerald-500" },
+    { label: "Content", value: contentScore, color: "bg-sky-400" },
+    { label: "Collaborative", value: collabScore, color: "bg-violet-400" },
+    { label: "Blended", value: blendedScore, color: "bg-accent" },
   ];
 
   return (
     <div className="flex flex-col gap-1">
       {rows.map((row) => (
-        <div key={row.label} className="flex items-center gap-2 text-[11px]">
-          <span className="w-20 shrink-0 text-neutral-500">{row.label}</span>
-          <div className="h-1.5 flex-1 rounded-full bg-neutral-200 dark:bg-neutral-800">
+        <div key={row.label} className="flex items-center gap-2 font-mono text-[11px]">
+          <span className="w-20 shrink-0 text-muted">{row.label}</span>
+          <div className="h-1.5 flex-1 rounded-full bg-white/[0.07]">
             <div
               className={`h-1.5 rounded-full ${row.color}`}
               style={{ width: `${Math.max(row.value, 0.02) * 100}%` }}
             />
           </div>
-          <span className="w-8 shrink-0 text-right text-neutral-500">
+          <span className="w-8 shrink-0 text-right text-muted">
             {row.value.toFixed(2)}
           </span>
         </div>

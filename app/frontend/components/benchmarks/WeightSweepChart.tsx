@@ -23,7 +23,7 @@ export default function WeightSweepChart({
             <div
               key={p.w}
               className={`flex-1 rounded-t-sm transition-all ${
-                isBest ? "bg-emerald-500" : "bg-neutral-300 dark:bg-neutral-700"
+                isBest ? "bg-accent" : "bg-white/15"
               }`}
               style={{ height: heightPx }}
               title={`w=${p.w}: NDCG@10=${p.ndcg_at_k}`}
@@ -33,12 +33,12 @@ export default function WeightSweepChart({
       </div>
       <div className="flex gap-1.5">
         {sweep.map((p) => (
-          <span key={p.w} className="flex-1 text-center text-[10px] text-neutral-500">
+          <span key={p.w} className="flex-1 text-center text-[10px] text-muted">
             {p.w.toFixed(1)}
           </span>
         ))}
       </div>
-      <p className="text-[11px] text-neutral-500">
+      <p className="text-[11px] text-muted">
         blend weight (w) → NDCG@10. Production uses w={productionWeight.toFixed(1)}
         {productionWeight === bestWeight ? " (the empirical best)" : ""}.
       </p>

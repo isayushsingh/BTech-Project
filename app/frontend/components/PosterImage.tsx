@@ -8,7 +8,7 @@ export default function PosterImage({ src, alt }: { src: string; alt: string }) 
 
   if (failed) {
     return (
-      <div className="flex h-full items-center justify-center p-2 text-center text-xs text-neutral-500">
+      <div className="flex h-full items-center justify-center p-2 text-center text-xs text-muted">
         {alt}
       </div>
     );

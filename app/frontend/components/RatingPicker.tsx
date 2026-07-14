@@ -18,7 +18,7 @@ export default function RatingPicker({
           onClick={() => onChange(star)}
           className="text-lg leading-none"
         >
-          <span className={star <= value ? "text-amber-500" : "text-neutral-300 dark:text-neutral-700"}>
+          <span className={star <= value ? "text-accent" : "text-white/15"}>
             ★
           </span>
         </button>

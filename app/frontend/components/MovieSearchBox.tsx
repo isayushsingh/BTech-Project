@@ -42,15 +42,13 @@ export default function MovieSearchBox({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-md border border-black/15 dark:border-white/15 bg-white dark:bg-neutral-900 px-3 py-2 text-sm outline-none focus:border-neutral-500"
+        className="w-full rounded-full border border-surface-border bg-surface px-4 py-3 font-mono text-sm text-foreground outline-none placeholder:text-muted focus:border-accent"
       />
       {loading && (
-        <div className="absolute right-3 top-2.5 text-xs text-neutral-400">
-          …
-        </div>
+        <div className="absolute right-4 top-3.5 text-xs text-muted">…</div>
       )}
       {suggestions.length > 0 && (
-        <ul className="absolute z-10 mt-1 max-h-72 w-full overflow-y-auto rounded-md border border-black/10 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-lg">
+        <ul className="absolute z-10 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-surface-border bg-surface shadow-xl">
           {suggestions.map((movie) => {
             const src = posterUrl(movie.poster_path);
             return (
@@ -62,9 +60,9 @@ export default function MovieSearchBox({
                     setQuery("");
                     setSuggestions([]);
                   }}
-                  className="flex w-full items-center gap-3 px-3 py-2 text-left text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-white/[0.05]"
                 >
-                  <div className="relative h-10 w-7 shrink-0 overflow-hidden rounded bg-neutral-200 dark:bg-neutral-800">
+                  <div className="relative h-10 w-7 shrink-0 overflow-hidden rounded bg-white/[0.06]">
                     {src && (
                       <Image src={src} alt={movie.title} fill sizes="28px" className="object-cover" />
                     )}
@@ -72,7 +70,7 @@ export default function MovieSearchBox({
                   <span>
                     {movie.title}
                     {movie.year ? (
-                      <span className="text-neutral-400"> ({movie.year})</span>
+                      <span className="text-muted"> ({movie.year})</span>
                     ) : null}
                   </span>
                 </button>
