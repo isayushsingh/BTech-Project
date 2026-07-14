@@ -25,7 +25,7 @@ def get_recommendations(
     store: Store,
     rated: list[tuple[int, float]],
     top_n: int = 12,
-    w: float = 0.5,
+    w: float = 0.7,  # tuned via pipeline/evaluate.py's held-out weight sweep (see benchmark_results.json)
 ) -> list[dict]:
     rated_ids = {mid for mid, _ in rated}
     liked = [mid for mid, r in rated if r >= 4]

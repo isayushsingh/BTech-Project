@@ -30,6 +30,12 @@ export default function Home() {
         >
           See how it works
         </Link>
+        <Link
+          href="/benchmarks"
+          className="rounded-md border border-black/15 px-5 py-3 text-sm font-medium dark:border-white/20"
+        >
+          How does it compare?
+        </Link>
       </div>
     </main>
   );

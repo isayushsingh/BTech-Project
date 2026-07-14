@@ -20,8 +20,15 @@ import pandas as pd
 
 from common import ARTIFACTS_DIR, DATA_DIR
 
-N_FACTORS = 50
-N_EPOCHS = 20
+# 20 factors / 50 epochs chosen via pipeline/evaluate.py's held-out
+# benchmark: this catalog's ratings_small intersection is small (~1k items,
+# ~700 users, ~20k train ratings after an eval split), and the original
+# 50-factor/20-epoch setting was measurably overfitting at that scale --
+# held-out NDCG@10 roughly doubled after dropping to 20 factors and training
+# longer. Re-run evaluate.py if the underlying dataset size changes
+# meaningfully, since the right factor count is data-size dependent.
+N_FACTORS = 20
+N_EPOCHS = 50
 LEARNING_RATE = 0.005
 REG = 0.02
 SEED = 42

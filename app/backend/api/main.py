@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routes import recommend, search, similar
+from .routes import benchmark, recommend, search, similar
 
 app = FastAPI(title="Hybrid Movie Recommender API")
 
@@ -18,6 +18,7 @@ app.add_middleware(
 app.include_router(search.router, prefix="/api")
 app.include_router(similar.router, prefix="/api")
 app.include_router(recommend.router, prefix="/api")
+app.include_router(benchmark.router, prefix="/api")
 
 
 @app.get("/api/health")

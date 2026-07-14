@@ -124,12 +124,20 @@ export default function HowItWorksPage() {
 
       <RevealSection className="flex flex-col items-center gap-4 border-t border-black/10 pt-12 text-center dark:border-white/10">
         <p className="text-neutral-500">That&apos;s the whole pipeline. See it work on real data.</p>
-        <Link
-          href="/try"
-          className="rounded-md bg-neutral-900 px-5 py-3 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
-        >
-          Try the recommender →
-        </Link>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href="/try"
+            className="rounded-md bg-neutral-900 px-5 py-3 text-sm font-medium text-white dark:bg-white dark:text-neutral-900"
+          >
+            Try the recommender →
+          </Link>
+          <Link
+            href="/benchmarks"
+            className="rounded-md border border-black/15 px-5 py-3 text-sm font-medium dark:border-white/20"
+          >
+            How does it compare?
+          </Link>
+        </div>
       </RevealSection>
     </main>
   );

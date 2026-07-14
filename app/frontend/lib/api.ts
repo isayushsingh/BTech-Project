@@ -1,4 +1,9 @@
-import type { RecommendResult, SearchResult, SimilarResult } from "./types";
+import type {
+  BenchmarkResults,
+  RecommendResult,
+  SearchResult,
+  SimilarResult,
+} from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -31,6 +36,12 @@ export async function getRecommendations(
   if (!res.ok) throw new Error("recommend failed");
   const data = await res.json();
   return data.results;
+}
+
+export async function getBenchmarkResults(): Promise<BenchmarkResults> {
+  const res = await fetch(`${API_URL}/api/benchmark`);
+  if (!res.ok) throw new Error("benchmark fetch failed");
+  return res.json();
 }
 
 export function posterUrl(path: string | null, size: "w200" | "w342" = "w200") {
