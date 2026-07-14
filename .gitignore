@@ -2,3 +2,19 @@
 .DS_Store
 .idea/
 notebook/feature.pkl
+
+# app/backend
+app/backend/data/*
+# Intermediate pipeline files -- not needed at serving time, regenerate via
+# the pipeline scripts. movies.db and item_factors.npz (what the API
+# actually loads) ARE committed so the app is deployable without secrets.
+app/backend/artifacts/content_neighbors.json
+app/backend/artifacts/movies_trimmed.parquet
+app/backend/.venv/
+app/backend/__pycache__/
+app/backend/**/__pycache__/
+
+# app/frontend
+app/frontend/node_modules/
+app/frontend/.next/
+app/frontend/.env*.local
