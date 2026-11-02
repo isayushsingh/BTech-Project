@@ -10,4 +10,4 @@ pydantic==2.7.4
 pyarrow==23.0.1
 nltk==3.8.1
 requests==2.32.3
-dnspython==2.6.1
+dnspython==2.9.0
